@@ -1,0 +1,46 @@
+#!/bin/bash
+
+rm -r ../out > /dev/null 2>&1
+mkdir ../out
+
+C="make O=../out"
+CM="make O=../out menuconfig"
+EX="export CROSS_COMPILE="
+PROC="grep processor /proc/cpuinfo|wc -l"
+function rep(){
+echo " Add Repository"
+sleep 2
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" >>  /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse" >> /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted universe multiverse" >> /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse" >> /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted universe multiverse" >> /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted universe multiverse" >> /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse" >> /etc/apt/source.list
+}
+if ! hash awk 2>/dev/null; then
+	             echo "Installing gawk..."
+           apt update
+           apt install gcc-4.9 g++-4.9
+           update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30 > /dev/null 2>&1
+           update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 30 > /dev/null 2>&1
+           rep
+                     sleep 0.025
+                     clear		
+	else
+                     echo "gcc already Installed..."
+		     sleep 0.6
+                     clear
+	fi
+$EX
+echo "Chose Config "
+echo ""
+ls arch/arm64/configs
+echo ""
+read -p "defconfig : " conf;
+$C $conf
+sleep 1
+$CM
+sleep 1
+$C -j$PROC
