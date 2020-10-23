@@ -90,6 +90,7 @@ function compile_univ(){
 $EX
 echo "Choose Config "
 echo ""
+cd ..
 ls arch/arm64/configs
 if [ -e arch/arm64/configs/vendor ]; then
 	echo "In vendor : "
@@ -111,6 +112,7 @@ function compile_samsung(){
 $EX
 echo "Choose Config "
 echo ""
+cd ..
 ls arch/arm64/configs
 echo ""
 read -p "[Defconfig] : " conf;
