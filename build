@@ -7,9 +7,11 @@ clear
 AWAL=$(pwd)
 # Output folder
 if [ -e output ]; then
+cd ..
 	rm -r output > /dev/null 2>&1
 fi
 
+cd ..
 mkdir output
 
 # Variable
@@ -92,7 +94,6 @@ function compile_univ(){
 $EX
 echo "Choose Config "
 echo ""
-cd ..
 ls arch/arm64/configs
 if [ -e arch/arm64/configs/vendor ]; then
 	echo "In vendor : "
