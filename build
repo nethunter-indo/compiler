@@ -48,30 +48,30 @@ if ! hash gcc-4.9 2>/dev/null; then
 }
 #install gcc-5
 function gcc-5(){
-if ! hash gcc 2>/dev/null; then
-	             echo "Installing gcc..."
+if ! hash gcc-5 2>/dev/null; then
+	             echo "Installing GCC..."
+	   add_repo
            apt update
            apt install gcc-5 g++-5
            update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 > /dev/null 2>&1
            update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 60 > /dev/null 2>&1
-           rep
-                     sleep 0.025
-                     clear		
+                     sleep 0.5
+                     clear
 	else
-                     echo "gcc already Installed..."
+                     echo "GCC already Installed..."
 		     sleep 0.6
                      clear
 	fi
 }
 
 #compile
-function com(){
+function compile(){
 $EX
-echo "Chose Config "
+echo "Choose Config "
 echo ""
 ls arch/arm64/configs
 echo ""
-read -p "defconfig : " conf;
+read -p "[Defconfig] : " conf;
 $C $conf
 sleep 1
 $CM
@@ -84,11 +84,11 @@ function menu(){
 clear
 echo ""
 echo "[1]Compile"
-echo "[2]Gcc 4.9 recommended "
-echo "[3]Gcc 5.0 "
-echo "[4]Clang"
+echo "[2]GCC 4.9 (recommended) "
+echo "[3]GCC 5.0 "
+echo "[4]Clang (NOT AVAILABLE YET)"
 echo ""
-echo -n "root@E99~: "
+echo -n "[root@E99 | hendramanu] : "
 read pil
 case $pil in
 1)
@@ -97,14 +97,12 @@ esac
 
 case $pil in
 2)
-rep
 gcc-4.9
 com
 esac
 
 case $pil in
 3)
-rep
 gcc-5
 com
 esac
@@ -114,9 +112,7 @@ case $pil in
 
 esac
 
-case $pil in
-5)
+*)
+menu
 
 esac
-}
-menu
