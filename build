@@ -27,6 +27,20 @@ CM_O="make O=output menuconfig"
 CM="make menuconfig"
 EX="export CROSS_COMPILE="
 PROC="grep processor /proc/cpuinfo|wc -l"
+
+# Colors
+white="\033[1;37m"
+grey="\033[0;37m"
+purple="\033[0;35m"
+red="\033[1;31m"
+green="\033[1;32m"
+yellow="\033[1;33m"
+purple="\033[0;35m"
+cyan="\033[0;36m"
+cafe="\033[0;33m"
+fiuscha="\033[0;35m"
+blue="\033[1;34m"
+transparent="\e[0m"
 #########
 
 # Add repo
@@ -97,8 +111,8 @@ $C -j$PROC
 function device() {
 clear
 echo "Choose your device :"
-echo "[1] Samsung"
-echo "[2] Xiaomi and other"
+echo -e ""$red["$yellow"1"$red"] "$green"Samsung""$transparent"
+echo -e ""$red["$yellow"2"$red"] "$green"Xiaomi and other""$transparent"
 echo ""
 echo -n "[root@E99 | hendramanu] : "
 read device
@@ -121,12 +135,13 @@ esac
 #menu
 function menu(){
 clear
-echo ""
-echo "[1]Compile"
-echo "[2]GCC 4.9 (recommended) "
-echo "[3]GCC 5.0 "
-echo "[4]Clang (NOT AVAILABLE YET)"
-echo ""
+echo -e ""
+echo -e ""$red"["$yellow"1"$red"]"$green"Compile"
+echo -e ""$red"["$yellow"2"$red"]"$green"Gcc 4.9 "$red"recommended ""$tranparent"
+echo -e ""$red"["$yellow"3"$red"]"$green"Gcc 5.0 "
+echo -e ""$red"["$yellow"4"$red"]"$green"Clang "$red"(NOT AVAILABLE YET""$transparent"
+echo -e ""$red"["$yellow"5"$red"]"$green"Exit""$transparent"
+echo -e ""
 echo -n "[root@E99 | hendramanu] : "
 read pil
 case $pil in
@@ -148,6 +163,13 @@ esac
 
 case $pil in
 4)
+
+esac
+
+case $pil in
+5)
+sleep 0.5
+exit
 
 esac
 
