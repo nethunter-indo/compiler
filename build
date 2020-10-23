@@ -12,6 +12,14 @@ fi
 
 mkdir output
 
+# Check source
+if [ -e source ]; then
+	test "$(ls -A a)" && echo "Source found!" || echo "Source empty!" && exit 1
+else
+	echo "Source not found! Please clone source to 'source'"
+	exit 1
+fi
+
 # Variable
 C_O="make O=output -j$(nproc --all)"
 C="make -j$(nproc --all)"

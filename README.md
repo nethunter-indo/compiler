@@ -14,7 +14,15 @@ Currently only support Kali NetHunter, will adding more soon.
 
 ```git clone https://github.com/nethunter-indo/compiler```
 
-```cd compiler && ./build```
+```cd compiler && ```
+
+## Build
+
+``` git clone <link_to_source> **source** ```
+
+Or, for Samsung : Download zip, extract,
+
+``` mkdir source && tar -xzf Kernel.tar.gz -C source ```
 
 ## Getting update
 
