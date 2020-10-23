@@ -4,7 +4,7 @@ Current Release : **V0.4 BETA**
 
 ## Author :
 
-1. Ripunk ( @ripunk , YT = Ripunk 16 )
+1. Ripunk ( root@E99 , YT = https://youtube.com/Ripunk16 )
 
 2. Hendra Manudinata ( @hendramanu )
 
