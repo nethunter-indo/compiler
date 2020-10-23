@@ -1,6 +1,6 @@
 # Kernel Compiler Script
 
-Current Release : **V0.1 BETA**
+Current Release : **V0.3 BETA**
 
 ## Author :
 
@@ -14,11 +14,11 @@ Currently only support Kali NetHunter, will adding more soon.
 
 ```git clone https://github.com/nethunter-indo/compiler```
 
-```cd compiler && ```
+```cd compiler```
 
 ## Build
 
-``` git clone <link_to_source> **source** ```
+``` git clone <link_to_source> source ```
 
 Or, for Samsung : Download zip, extract,
 

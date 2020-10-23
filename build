@@ -26,7 +26,7 @@ C="make -j$(nproc --all)"
 CM_O="make O=output menuconfig"
 CM="make menuconfig"
 EX="export CROSS_COMPILE="
-PROC="grep processor /proc/cpuinfo|wc -l"
+# PROC="grep processor /proc/cpuinfo|wc -l"
 
 # Colors
 white="\033[1;37m"
@@ -94,7 +94,7 @@ if ! hash gcc-5 2>/dev/null; then
 }
 
 #compile
-function compile(){
+function compile_samsung(){
 $EX
 echo "Choose Config "
 echo ""
@@ -105,7 +105,21 @@ $C $conf
 sleep 1
 $CM
 sleep 1
-$C -j$PROC
+$C
+}
+
+function compile_univ(){
+$EX
+echo "Choose Config "
+echo ""
+ls arch/arm64/configs
+echo ""
+read -p "[Defconfig] : " conf;
+$C_O $conf
+sleep 1
+$CM_O
+sleep 1
+$C_O
 }
 
 function device() {
@@ -118,15 +132,13 @@ echo -n "[root@E99 | hendramanu] : "
 read device
 case $device in
 1)
-C
-CM
+compile_samsung
 
 esac
 
 case $device in
 2)
-C_O
-CM_O
+compile_univ
 
 esac
 
@@ -137,9 +149,9 @@ function menu(){
 clear
 echo -e ""
 echo -e ""$red"["$yellow"1"$red"]"$green"Compile"
-echo -e ""$red"["$yellow"2"$red"]"$green"Gcc 4.9 "$red"recommended ""$tranparent"
-echo -e ""$red"["$yellow"3"$red"]"$green"Gcc 5.0 "
-echo -e ""$red"["$yellow"4"$red"]"$green"Clang "$red"(NOT AVAILABLE YET""$transparent"
+echo -e ""$red"["$yellow"2"$red"]"$green"Install GCC 4.9 "$red"recommended ""$tranparent"
+echo -e ""$red"["$yellow"3"$red"]"$green"GCC 5.0 "
+echo -e ""$red"["$yellow"4"$red"]"$green"Clang "$red"(NOT AVAILABLE YET)""$transparent"
 echo -e ""$red"["$yellow"5"$red"]"$green"Exit""$transparent"
 echo -e ""
 echo -n "[root@E99 | hendramanu] : "
