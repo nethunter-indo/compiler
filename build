@@ -11,16 +11,17 @@ cd ..
 	rm -r output > /dev/null 2>&1
 fi
 
-cd ..
 mkdir output
 
 # Variable
-C_O="make O=output -j$(nproc --all)"
-C="make -j$(nproc --all)"
+C_D="make O=output"
+C_O="make O=output -j$PROC"
+CC="make"
+C="make -j$PROC"
 CM_O="make O=output menuconfig"
 CM="make menuconfig"
 EX="export CROSS_COMPILE="
-# PROC="grep processor /proc/cpuinfo|wc -l"
+PROC="grep processor /proc/cpuinfo|wc -l"
 
 # Colors
 white="\033[1;37m"
@@ -104,11 +105,15 @@ echo " Example : vendor/nethunter_defconfig"
 fi
 echo ""
 read -p "[Defconfig] : " conf;
-$C_O $conf
+$C_D $conf
 sleep 1
 $CM_O
 sleep 1
 $C_O
+dc=$?
+if [ $dc != 0 ]; then
+exit $dc
+fi
 }
 
 function compile_samsung(){
@@ -119,7 +124,7 @@ cd ..
 ls arch/arm64/configs
 echo ""
 read -p "[Defconfig] : " conf;
-$C $conf
+$C_C $conf
 sleep 1
 $CM
 sleep 1
