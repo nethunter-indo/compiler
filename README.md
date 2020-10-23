@@ -1,8 +1,8 @@
-## Kernel Compiler Script
+# Kernel Compiler Script
 
-Current Release : V0.1 BETA
+Current Release : **V0.1 BETA**
 
-Author :
+## Author :
 
 1. Ripunk ( @ripunk , YT = Ripunk 16 )
 
@@ -12,10 +12,12 @@ Currently only support Kali NetHunter, will adding more soon.
 
 ## Clone
 
-git clone https://github.com/nethunter-indo/compiler
+```git clone https://github.com/nethunter-indo/compiler```
 
-cd compiler && ./build
+```cd compiler && ./build```
 
 ## Getting update
 
-git pull
+```git pull```
+
+Don't forget to follow us! :)
