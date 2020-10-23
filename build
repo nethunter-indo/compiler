@@ -4,7 +4,7 @@
 # YouTube Ripunk16
 
 clear
-
+AWAL=$(pwd)
 # Output folder
 if [ -e output ]; then
 	rm -r output > /dev/null 2>&1
@@ -13,8 +13,8 @@ fi
 mkdir output
 
 # Check source
-if [ -e source ]; then
-	test "$(ls -A source)" && echo "Source found!" || echo "Source empty!" && exit 1
+[ -d source ]; then
+	test "$(ls -A $AWAL/source)" && echo "Source found!" || echo "Source empty!" && exit 1
 else
 	echo "Source not found! Please clone source to 'source'"
 	exit 1
