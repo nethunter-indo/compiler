@@ -1,4 +1,6 @@
 #!/bin/bash
+# Compile Script
+# ripunk & hendramanu
 
 rm -r ../out > /dev/null 2>&1
 mkdir ../out
