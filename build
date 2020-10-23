@@ -7,14 +7,16 @@
 rm -r ../out > /dev/null 2>&1
 mkdir ../out
 
+# Variable
 C="make O=../out"
 CM="make O=../out menuconfig"
 EX="export CROSS_COMPILE="
 PROC="grep processor /proc/cpuinfo|wc -l"
-##############################################################
-#add repo
-function rep(){
-echo " Add Repository"
+#########
+
+# Add repo
+function add_repo(){
+echo " Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository"
 sleep 2
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" >>  /etc/apt/source.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /etc/apt/source.list
@@ -26,20 +28,21 @@ echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted un
 echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse" >> /etc/apt/source.list
 }
 
-#install gcc-4.9
+
+# Install gcc-4.9
 function gcc-4.9(){
-if ! hash gcc 2>/dev/null; then
-	             echo "Installing gcc..."
+if ! hash gcc-4.9 2>/dev/null; then
+	             echo "Installing GCC 4.9..."
+	   add_repo
            apt update
            apt install gcc-4.9 g++-4.9
            update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30 > /dev/null 2>&1
            update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 30 > /dev/null 2>&1
-           rep
-                     sleep 0.025
-                     clear		
+                     sleep 0.5
+                     clear
 	else
-                     echo "gcc already Installed..."
-		     sleep 0.6
+                     echo "GCC already Installed..."
+		     sleep 0.5
                      clear
 	fi
 }
