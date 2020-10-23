@@ -1,6 +1,8 @@
 #!/bin/bash
 # Compile Script
-# ripunk & hendramanu
+# Ripunk16 & hendramanu
+# YouTube Ripunk16
+
 
 rm -r ../out > /dev/null 2>&1
 mkdir ../out
@@ -9,6 +11,8 @@ C="make O=../out"
 CM="make O=../out menuconfig"
 EX="export CROSS_COMPILE="
 PROC="grep processor /proc/cpuinfo|wc -l"
+##############################################################
+#add repo
 function rep(){
 echo " Add Repository"
 sleep 2
@@ -21,8 +25,11 @@ echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted u
 echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted universe multiverse" >> /etc/apt/source.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse" >> /etc/apt/source.list
 }
-if ! hash awk 2>/dev/null; then
-	             echo "Installing gawk..."
+
+#install gcc-4.9
+function gcc-4.9(){
+if ! hash gcc 2>/dev/null; then
+	             echo "Installing gcc..."
            apt update
            apt install gcc-4.9 g++-4.9
            update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30 > /dev/null 2>&1
@@ -35,6 +42,27 @@ if ! hash awk 2>/dev/null; then
 		     sleep 0.6
                      clear
 	fi
+}
+#install gcc-5
+function gcc-5(){
+if ! hash gcc 2>/dev/null; then
+	             echo "Installing gcc..."
+           apt update
+           apt install gcc-5 g++-5
+           update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 > /dev/null 2>&1
+           update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 60 > /dev/null 2>&1
+           rep
+                     sleep 0.025
+                     clear		
+	else
+                     echo "gcc already Installed..."
+		     sleep 0.6
+                     clear
+	fi
+}
+
+#compile
+function com(){
 $EX
 echo "Chose Config "
 echo ""
@@ -46,3 +74,46 @@ sleep 1
 $CM
 sleep 1
 $C -j$PROC
+}
+
+#menu
+function menu(){
+clear
+echo ""
+echo "[1]Compile"
+echo "[2]Gcc 4.9 recommended "
+echo "[3]Gcc 5.0 "
+echo "[4]Clang"
+echo ""
+echo -n "root@E99~: "
+read pil
+case $pil in
+1)
+com
+esac
+
+case $pil in
+2)
+rep
+gcc-4.9
+com
+esac
+
+case $pil in
+3)
+rep
+gcc-5
+com
+esac
+
+case $pil in
+4)
+
+esac
+
+case $pil in
+5)
+
+esac
+}
+menu
