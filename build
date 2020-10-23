@@ -12,14 +12,6 @@ fi
 
 mkdir output
 
-# Check source
-[ -d source ]; then
-	test "$(ls -A $AWAL/source)" && echo "Source found!" || echo "Source empty!" && exit 1
-else
-	echo "Source not found! Please clone source to 'source'"
-	exit 1
-fi
-
 # Variable
 C_O="make O=output -j$(nproc --all)"
 C="make -j$(nproc --all)"
@@ -94,6 +86,27 @@ if ! hash gcc-5 2>/dev/null; then
 }
 
 #compile
+function compile_univ(){
+$EX
+echo "Choose Config "
+echo ""
+ls arch/arm64/configs
+if [ -e arch/arm64/configs/vendor ]; then
+	echo "In vendor : "
+	ls arch/arm64/configs/vendor
+echo ""
+echo " If your defconfig is in vendor folder, please add vendor/ in your input"
+echo " Example : vendor/nethunter_defconfig"
+fi
+echo ""
+read -p "[Defconfig] : " conf;
+$C_O $conf
+sleep 1
+$CM_O
+sleep 1
+$C_O
+}
+
 function compile_samsung(){
 $EX
 echo "Choose Config "
@@ -108,27 +121,13 @@ sleep 1
 $C
 }
 
-function compile_univ(){
-$EX
-echo "Choose Config "
-echo ""
-ls arch/arm64/configs
-echo ""
-read -p "[Defconfig] : " conf;
-$C_O $conf
-sleep 1
-$CM_O
-sleep 1
-$C_O
-}
-
 function device() {
 clear
 echo "Choose your device :"
 echo -e ""$red["$yellow"1"$red"] "$green"Samsung""$transparent"
-echo -e ""$red["$yellow"2"$red"] "$green"Xiaomi and other""$transparent"
+""$red["$yellow"2"$red"] "$green"Xiaomi and other""$transparent"
 echo ""
-echo -n "[root@E99 | hendramanu] : "
+echo -n "[Device] : "
 read device
 case $device in
 1)

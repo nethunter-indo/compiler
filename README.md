@@ -1,6 +1,6 @@
 # Kernel Compiler Script
 
-Current Release : **V0.3 BETA**
+Current Release : **V0.4 BETA**
 
 ## Author :
 
