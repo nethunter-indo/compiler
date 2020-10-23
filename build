@@ -14,7 +14,7 @@ mkdir output
 
 # Check source
 if [ -e source ]; then
-	test "$(ls -A a)" && echo "Source found!" || echo "Source empty!" && exit 1
+	test "$(ls -A source)" && echo "Source found!" || echo "Source empty!" && exit 1
 else
 	echo "Source not found! Please clone source to 'source'"
 	exit 1
@@ -150,7 +150,7 @@ clear
 echo -e ""
 echo -e ""$red"["$yellow"1"$red"]"$green"Compile"
 echo -e ""$red"["$yellow"2"$red"]"$green"Install GCC 4.9 "$red"recommended ""$tranparent"
-echo -e ""$red"["$yellow"3"$red"]"$green"GCC 5.0 "
+echo -e ""$red"["$yellow"3"$red"]"$green"Install GCC 5.0 "
 echo -e ""$red"["$yellow"4"$red"]"$green"Clang "$red"(NOT AVAILABLE YET)""$transparent"
 echo -e ""$red"["$yellow"5"$red"]"$green"Exit""$transparent"
 echo -e ""
