@@ -112,7 +112,13 @@ case $pil in
 
 esac
 
+case $pil in
 *)
+echo "Invalid!"
+sleep 1
 menu
 
 esac
+}
+
+menu
