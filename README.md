@@ -14,8 +14,11 @@ Currently only support Android Linux-based Distro, will adding more.
 Go to kernel source, and then
 
 ```git clone https://github.com/nethunter-indo/compiler```
+
 ```cd compiler```
+
 ```cp build ../```
+
 ```cd ../```
 ## Build
 
