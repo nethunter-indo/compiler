@@ -40,7 +40,7 @@ transparent="\e[0m"
 
 # Add repo
 function add_repo(){
-if grep -Fxq "xenial" /etc/apt/sources.list && grep -Fxq "ubuntu" /etc/apt/sources.list; then
+if grep -Fxq "deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse" /etc/apt/sources.list; then
 	echo "Repo already added!"
 else
 	echo " Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository"
@@ -67,8 +67,8 @@ if ! type gcc-4.9 2>/dev/null; then
 	echo "Installing GCC 4.9..."
 	add_repo
 	apt update
- 	apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
-	apt install gcc-4.9 g++-4.9
+ 	apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev -y
+	apt install gcc-4.9 g++-4.9 -y
 	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30 > /dev/null 2>&1
 	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 30 > /dev/null 2>&1
  	sleep 0.5
