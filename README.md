@@ -1,6 +1,6 @@
 # Kernel Compiler Script
 
-Current Release : **V0.4 BETA**
+Current Release : **V0.5 BETA**
 
 ## Author :
 
@@ -8,24 +8,21 @@ Current Release : **V0.4 BETA**
 
 2. Hendra Manudinata ( @hendramanu )
 
-Currently only support Kali NetHunter, will adding more soon.
+Currently only support Android Linux-based Distro, will adding more.
 
 ## Clone
+Go to kernel source, and then
 
 ```git clone https://github.com/nethunter-indo/compiler```
-
 ```cd compiler```
-
+```cp build ../```
+```cd ../```
 ## Build
 
-``` git clone <link_to_source> source ```
-
-Or, for Samsung : Download zip, extract,
-
-``` mkdir source && tar -xzf Kernel.tar.gz -C source ```
+```./build```
 
 ## Getting update
 
-```git pull```
+```cd compiler && git pull && cp -f build ../```
 
 Don't forget to follow us! :)
