@@ -40,11 +40,20 @@ transparent="\e[0m"
 
 # Add repo
 function add_repo(){
-if grep -Fxq "xenial" /etc/apt/sources.list && grep -Fxq "ubuntu" /etc/apt/sources.list; then
+if grep -Fxq "xenial" /etc/apt/sources.list && grep -Fxq "bionic" /etc/apt/sources.list; then
 	echo "Repo already added!"
 else
 	echo " Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository"
 sleep 2
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted universe multiverse/d' /etc/apt/sources.list
+sed -i '/deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse/d' /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" >>  /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list
