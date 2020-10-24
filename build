@@ -40,40 +40,50 @@ transparent="\e[0m"
 
 # Add repo
 function add_repo(){
-echo " Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository"
+if grep -Fxq "xenial" /etc/apt/sources.list && grep -Fxq "ubuntu" /etc/apt/sources.list; then
+	echo "Repo already added!"
+else
+	echo " Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository"
 sleep 2
-echo "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" >>  /etc/apt/source.list
-echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /etc/apt/source.list
-echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse" >> /etc/apt/source.list
-echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted universe multiverse" >> /etc/apt/source.list
-echo "deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse" >> /etc/apt/source.list
-echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted universe multiverse" >> /etc/apt/source.list
-echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted universe multiverse" >> /etc/apt/source.list
-echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse" >> /etc/apt/source.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" >>  /etc/apt/sources.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /etc/apt/sources.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse" >> /etc/apt/sources.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
+echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
+gpg --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 > /dev/null 2>&1
+sleep 3
+gpg -a --export 3B4FE6ACC0B21F32 | sudo apt-key add - > /dev/null 2>&1
+sleep 3
+fi
 }
 
 
 # Install gcc-4.9
-function gcc-4.9(){
-if ! hash gcc-4.9 2>/dev/null; then
-	             echo "Installing GCC 4.9..."
-	   add_repo
-           apt update
-           apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
-           apt install gcc-4.9 g++-4.9
-           update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30 > /dev/null 2>&1
-           update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 30 > /dev/null 2>&1
-                     sleep 0.5
-                     clear
-	else
-                     echo "GCC already Installed..."
-		     sleep 0.5
-                     clear
-	fi
+function install_gcc-4.9(){
+if ! type gcc-4.9 2>/dev/null; then
+	echo "Installing GCC 4.9..."
+	add_repo
+	apt update
+ 	apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
+	apt install gcc-4.9 g++-4.9
+	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30 > /dev/null 2>&1
+	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 30 > /dev/null 2>&1
+ 	sleep 0.5
+	clear
+else
+	echo "GCC already Installed... Skipping"
+	sleep 0.5
+	clear
+fi
+
 }
+
 #install gcc-5
-function gcc-5(){
-if ! hash gcc-5 2>/dev/null; then
+function install_gcc-5(){
+if ! type gcc-5 2>/dev/null; then
 	             echo "Installing GCC..."
 	   add_repo
            apt update
@@ -172,13 +182,13 @@ esac
 
 case $pil in
 2)
-gcc-4.9
+install_gcc-4.9
 menu
 esac
 
 case $pil in
 3)
-gcc-5
+install_gcc-5
 menu
 esac
 
