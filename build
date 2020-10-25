@@ -7,12 +7,14 @@
 
 clear
 AWAL=$(pwd)
+a="cd .."
 function check_config() {
 	if [ -e output/.config ] || [ -e .config ]; then
 		echo "Current config detected! Skipping..."
 		BARU=NGGAK
 	else
 		BARU=IYA
+		$a
 		rm -r output > /dev/null 2>&1
 		mkdir output
 		make clean > /dev/null 2>&1
@@ -22,9 +24,11 @@ function check_config() {
 
 # Variable
 EX="export CROSS_COMPILE="
-PROC="$(nproc --all)"
+PROC=`grep processor /proc/cpuinfo|wc -l`
+defcon="$a ls arch/arm64/configs"
 
 if [ "$BARU" == "NGGAK" ]; then
+    C_D="make O=output"
 	C_O="make O=output -j$PROC"
 	COM="make -j$PROC"
 	CM_O=echo "Old config! Skipping menuconfig"
@@ -34,6 +38,7 @@ else
 	CM="make menuconfig"
 	COM="make -j$PROC"
 	C_O="make O=output -j$PROC"
+	C_D="make O=output"
 fi
 
 # Colors
@@ -132,14 +137,14 @@ echo " Example : vendor/nethunter_defconfig"
 fi
 echo ""
 read -p "[Defconfig] : " conf;
-$C_O $conf
+$C_D $conf
 sleep 1
 $CM_O
 sleep 1
 $C_O
 dc=$?
 if [ $dc != 0 ]; then
-exit $dc
+$C_O
 fi
 fi
 }
