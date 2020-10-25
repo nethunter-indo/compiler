@@ -2,26 +2,39 @@
 # Compile Script
 # Ripunk16 & hendramanu
 # YouTube Ripunk16
+# Github : https://github.com/ripunk
+# Github : https://github.com/hendramanu
 
 clear
 AWAL=$(pwd)
 # Output folder
-if [ -e output ]; then
-cd ..
-	rm -r output > /dev/null 2>&1
-fi
-
-mkdir output
+# if [ -e output ]; then
+# cd ..
+	if [ -e output/.config ] || [ -e .config ]; then
+		echo "Current config detected! Skipping..."
+		BARU=NGGAK
+	else
+		BARU=IYA
+		rm -r output > /dev/null 2>&1
+		make clean > /dev/null 2>&1
+		make mrproper > /dev/null 2>&1
+# fi
 
 # Variable
-C_D="make O=output"
-C_O="make O=output -j$PROC"
-CC="make"
-C="make -j$PROC"
-CM_O="make O=output menuconfig"
-CM="make menuconfig"
 EX="export CROSS_COMPILE="
-PROC="grep processor /proc/cpuinfo|wc -l"
+PROC="$(nproc --all)"
+
+if [ $BARU == NGGAK ]; then
+	C_O="make O=output -j$PROC"
+	COM="make -j$PROC"
+	CM_O=echo "Old config! Skipping menuconfig"
+	CM=echo "Old config! Skipping menuconfig"
+else
+	CM_O="make O=output menuconfig"
+	CM="make menuconfig"
+	COM="make -j$PROC"
+	C_O="make O=output -j$PROC"
+fi
 
 # Colors
 white="\033[1;37m"
@@ -103,6 +116,10 @@ if ! type gcc-5 2>/dev/null; then
 #compile
 function compile_univ(){
 $EX
+if [ $BARU == NGGAK ]; then
+	echo "Not make defconfig due to old config"
+	$C_O
+else
 echo "Choose Config "
 echo ""
 ls arch/arm64/configs
@@ -115,7 +132,7 @@ echo " Example : vendor/nethunter_defconfig"
 fi
 echo ""
 read -p "[Defconfig] : " conf;
-$C_D $conf
+$C_O $conf
 sleep 1
 $CM_O
 sleep 1
@@ -124,21 +141,26 @@ dc=$?
 if [ $dc != 0 ]; then
 exit $dc
 fi
+fi
 }
 
 function compile_samsung(){
 $EX
+if [ $BARU == NGGAK ]; then
+	echo "Not make defconfig due to old config!"
+	$COM
+else
 echo "Choose Config "
 echo ""
-cd ..
 ls arch/arm64/configs
 echo ""
 read -p "[Defconfig] : " conf;
-$C_C $conf
+$COM $conf
 sleep 1
 $CM
 sleep 1
-$C
+$COM
+fi
 }
 
 function device() {
@@ -165,7 +187,6 @@ esac
 
 #menu
 function menu(){
-clear
 echo -e ""
 echo -e ""$red"["$yellow"1"$red"]"$green"Compile"
 echo -e ""$red"["$yellow"2"$red"]"$green"Install GCC 4.9 "$red"recommended ""$tranparent"
