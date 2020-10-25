@@ -9,14 +9,15 @@ clear
 AWAL=$(pwd)
 a="cd .."
 function check_config() {
+ $a
 	if [ -e output/.config ] || [ -e .config ]; then
 		echo "Current config detected! Skipping..."
 		BARU=NGGAK
 	else
 		BARU=IYA
-		$a
 		rm -r output > /dev/null 2>&1
 		mkdir output
+  echo -e ""$blue"Please "$red"Wait ...."
 		make clean > /dev/null 2>&1
 		make mrproper > /dev/null 2>&1
 	fi
@@ -25,7 +26,6 @@ function check_config() {
 # Variable
 EX="export CROSS_COMPILE="
 PROC=`grep processor /proc/cpuinfo|wc -l`
-defcon="$a ls arch/arm64/configs"
 
 if [ "$BARU" == "NGGAK" ]; then
     C_D="make O=output"
@@ -48,7 +48,6 @@ purple="\033[0;35m"
 red="\033[1;31m"
 green="\033[1;32m"
 yellow="\033[1;33m"
-purple="\033[0;35m"
 cyan="\033[0;36m"
 cafe="\033[0;33m"
 fiuscha="\033[0;35m"
@@ -59,9 +58,9 @@ transparent="\e[0m"
 # Add repo
 function add_repo(){
 if grep -Fxq "deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse" /etc/apt/sources.list; then
-	echo "Repo already added!"
+	echo -e""$red"Repo already added!""$transparent"
 else
-	echo " Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository"
+	echo -e""$yellow" Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository""$transparent"
 sleep 2
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" >>  /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /etc/apt/sources.list
@@ -122,55 +121,55 @@ if ! type gcc-5 2>/dev/null; then
 function compile_univ(){
 $EX
 if [ $BARU == NGGAK ]; then
-	echo "Not make defconfig due to old config"
+	echo -e ""$red"Not make "$blue"defconfig due to old "$cyan"config""$transparent"
 	$C_O
 else
-echo "Choose Config "
+echo -e ""$red"Choose Config ""$transparent"
 echo ""
 ls arch/arm64/configs
 if [ -e arch/arm64/configs/vendor ]; then
 	echo "In vendor : "
 	ls arch/arm64/configs/vendor
 echo ""
-echo " If your defconfig is in vendor folder, please add vendor/ in your input"
-echo " Example : vendor/nethunter_defconfig"
+echo -e " If your "$red"defconfig "$transparent"is in "$red"vendor "$transparent"folder, "$yellow"please add vendor/ in your input"
+echo -e ""$red" Example "$trasparent": "$yellow"vendor/nethunter_defconfig"
 fi
-echo ""
+echo -e ""$red""
 read -p "[Defconfig] : " conf;
 $C_D $conf
 sleep 1
 $CM_O
 sleep 1
 $C_O
-dc=$?
-if [ $dc != 0 ]; then
-$C_O
-fi
 fi
 }
 
 function compile_samsung(){
 $EX
 if [ $BARU == NGGAK ]; then
-	echo "Not make defconfig due to old config!"
+	echo -e ""$red"Not make "$blue"defconfig due to old "$cyan"config!""$transparent"
 	$COM
 else
-echo "Choose Config "
-echo ""
+echo -e ""$red"Choose Config ""$transparent"
+echo -e ""$cyan""
 ls arch/arm64/configs
-echo ""
+echo ""$red""
 read -p "[Defconfig] : " conf;
 $COM $conf
 sleep 1
 $CM
 sleep 1
 $COM
+dc=$?
+if [ $dc != 0 ]; then
+$COM
+fi
 fi
 }
 
 function device() {
 clear
-echo "Choose your device :"
+echo -e ""$red"Choose your device :""$transparent"
 echo -e ""$red["$yellow"1"$red"] "$green"Samsung""$transparent"
 ""$red["$yellow"2"$red"] "$green"Xiaomi and other""$transparent"
 echo ""
@@ -203,8 +202,9 @@ echo  -e $fiuscha" X --------------- X " $transparent
 echo -e $cyan " S C R I P T "
 echo ""
 echo "| https://github.com/nethunter-indo/compile             |"
-echo "| Author 1 : ripunk (https://youtube.com/Ripunk16)      |"
-echo "| Author 2 : hendramanu (https://github.com/hendramanu) |"
+echo -e ""$green"| "$yellow"YouTube  : Ripunk16 "$red"(https://youtube.com/Ripunk16)    "$green"|""$transparent"
+echo -e ""$green"| "$yellow"Author 1 : ripunk / E99 "$red"(https://github.com/ripunk)   "$green"|""$transparent"
+echo -e ""$green"| "$yellow"Author 2 : hendramanu "$red"(https://github.com/hendramanu) "$green"|""$transparent"
 echo "" ""
 }
 #menu
