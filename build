@@ -14,6 +14,7 @@ function check_config() {
 	else
 		BARU=IYA
 		rm -r output > /dev/null 2>&1
+		mkdir output
 		make clean > /dev/null 2>&1
 		make mrproper > /dev/null 2>&1
 	fi
