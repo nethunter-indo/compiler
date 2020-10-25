@@ -7,9 +7,7 @@
 
 clear
 AWAL=$(pwd)
-# Output folder
-# if [ -e output ]; then
-# cd ..
+function check_config() {
 	if [ -e output/.config ] || [ -e .config ]; then
 		echo "Current config detected! Skipping..."
 		BARU=NGGAK
@@ -19,13 +17,13 @@ AWAL=$(pwd)
 		make clean > /dev/null 2>&1
 		make mrproper > /dev/null 2>&1
 	fi
-# fi
+}
 
 # Variable
 EX="export CROSS_COMPILE="
 PROC="$(nproc --all)"
 
-if [ $BARU == NGGAK ]; then
+if [ "$BARU" == "NGGAK" ]; then
 	C_O="make O=output -j$PROC"
 	COM="make -j$PROC"
 	CM_O=echo "Old config! Skipping menuconfig"
@@ -186,6 +184,23 @@ esac
 
 }
 
+function banner() {
+echo -e $fiuscha " X --------------- X " $transparent
+echo -e $fiuscha "  ______ ___   ___   " $transparent
+echo -e $blue    " |  ____/ _ \ / _ \  " $transparent
+echo -e $red     " | |__ | (_) | (_) | " $transparent
+echo -e $purple  " |  __| \__  |\__  | " $transparent
+echo -e $yellow  " | |____  / /   / /  " $transparent
+echo -e $green   " |______|/_/   /_/   " $transparent
+echo  ""
+echo  -e $fiuscha" X --------------- X " $transparent
+echo -e $cyan " S C R I P T "
+echo ""
+echo "| https://github.com/nethunter-indo/compile             |"
+echo "| Author 1 : ripunk (https://youtube.com/Ripunk16)      |"
+echo "| Author 2 : hendramanu (https://github.com/hendramanu) |"
+echo "" ""
+}
 #menu
 function menu(){
 echo -e ""
@@ -235,4 +250,6 @@ menu
 esac
 }
 
+banner
+check_config
 menu
