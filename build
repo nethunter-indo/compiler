@@ -18,6 +18,7 @@ AWAL=$(pwd)
 		rm -r output > /dev/null 2>&1
 		make clean > /dev/null 2>&1
 		make mrproper > /dev/null 2>&1
+	fi
 # fi
 
 # Variable
