@@ -122,7 +122,13 @@ function compile_univ(){
 $EX
 if [ $BARU == NGGAK ]; then
 	echo -e ""$red"Not make "$blue"defconfig due to old "$cyan"config""$transparent"
-	$C_O
+ read -p "Edit Config y/n? : " config
+    if [ $config = "y" ];then
+       $CM_O
+       $C_O
+    else
+	      $C_O
+    fi
 else
 echo -e ""$red"Choose Config ""$transparent"
 echo ""
@@ -148,7 +154,13 @@ function compile_samsung(){
 $EX
 if [ $BARU == NGGAK ]; then
 	echo -e ""$red"Not make "$blue"defconfig due to old "$cyan"config!""$transparent"
-	$COM
+read -p "Edit Config y/n? : " config
+    if [ $config = "y" ];then
+       $CM
+       $COM
+    else
+	      $COM
+    fi
 else
 echo -e ""$red"Choose Config ""$transparent"
 echo -e ""$cyan""
@@ -251,7 +263,10 @@ case $pil in
 *)
 echo "Invalid!"
 sleep 1
-menu
+echo -e ""$red"Run ./build to recompile"
+sleep 1
+exit
+
 
 esac
 }
