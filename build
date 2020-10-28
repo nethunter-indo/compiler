@@ -49,8 +49,6 @@ function check_config() {
 # Variable
 EX="export CROSS_COMPILE="
 EX_H="export KERNELNAME=Ripunk@E99_Hendramanu"
-U="KBUILD_BUILD_HOST=root@"
-H="KBUILD_BUILD_USER=E99"
 PROC=`grep processor /proc/cpuinfo|wc -l`
 
 if [ "$BARU" == "NGGAK" ]; then
@@ -163,8 +161,6 @@ if [ $BARU == NGGAK ]; then
  read -p "Edit Config y/n? : " config
     if [ $config = "y" ];then
        $EX_H
-       $U
-       $H
        $CM_O
        $C_O
     else
@@ -198,8 +194,6 @@ if [ $BARU == NGGAK ]; then
 read -p "Edit Config y/n? : " config
     if [ $config = "y" ];then
        $EX_H
-       $U
-       $H
        $CM
        $COM
     else
