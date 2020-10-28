@@ -45,16 +45,16 @@ PROC=`grep processor /proc/cpuinfo|wc -l`
 
 if [ "$BARU" == "NGGAK" ]; then
     C_D="make O=output"
-	C_O="make O=output -j$PROC"
-	COM="make -j$PROC"
+	C_O="make O=output -j$PROC && check_success"
+	COM="make -j$PROC && check_success"
 	CM_O=echo "Old config! Skipping menuconfig"
 	CM=echo "Old config! Skipping menuconfig"
 else
 	CM_O="make O=output menuconfig"
 	CM="make menuconfig"
-	COM="make -j$PROC"
-	C_O="make O=output -j$PROC"
-	C_D="make O=output"
+	COM="make -j$PROC && check_success"
+	C_O="make O=output -j$PROC && check_success"
+	C_D="make O=output && check_success"
 fi
 
 # Colors
