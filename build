@@ -8,6 +8,8 @@
 clear
 AWAL=$(pwd)
 a="cd .."
+rm wlan1.patch > /dev/null 2>&1
+b="cp patch/wlan1.patch ../"
 
 function check_success() {
 if [ -e arch/arm64/boot/Image ] || [ -e output/arch/arm64/boot/Image ]; then
@@ -24,23 +26,31 @@ menu
 esac
 
 }
+
 function check_config() {
+ $b
  $a
 	if [ -e output/.config ] || [ -e .config ]; then
-		echo "Current config detected! Skipping..."
+		sleep 0.1 && echo -e ""$yellow"Current config detected! Skipping...""$transparent"
 		BARU=NGGAK
 	else
 		BARU=IYA
 		rm -r output > /dev/null 2>&1
 		mkdir output
   echo -e ""$blue"Please "$red"Wait ...."
+  loading
 		make clean > /dev/null 2>&1
 		make mrproper > /dev/null 2>&1
+  clear
+  banner
 	fi
 }
 
 # Variable
 EX="export CROSS_COMPILE="
+EX_H="export KERNELNAME=Ripunk@E99_Hendramanu"
+U="KBUILD_BUILD_HOST=root@"
+H="KBUILD_BUILD_USER=E99"
 PROC=`grep processor /proc/cpuinfo|wc -l`
 
 if [ "$BARU" == "NGGAK" ]; then
@@ -54,7 +64,7 @@ else
 	CM="make menuconfig"
 	COM="make -j$PROC && check_success"
 	C_O="make O=output -j$PROC && check_success"
-	C_D="make O=output && check_success"
+	C_D="make O=output"
 fi
 
 # Colors
@@ -133,6 +143,18 @@ if ! type gcc-5 2>/dev/null; then
 	fi
 }
 
+function loading() {
+    echo -ne ""$red"*********"
+    sleep 0.15
+    echo -ne ""$red"***************"
+    sleep 0.15
+    echo -ne ""$red"***********************"
+    sleep 1
+    echo -ne ""$red" OK!"
+    sleep 0.15
+    echo -ne "\n"
+}
+
 #compile
 function compile_univ(){
 $EX
@@ -140,6 +162,9 @@ if [ $BARU == NGGAK ]; then
 	echo -e ""$red"Not make "$blue"defconfig due to old "$cyan"config""$transparent"
  read -p "Edit Config y/n? : " config
     if [ $config = "y" ];then
+       $EX_H
+       $U
+       $H
        $CM_O
        $C_O
     else
@@ -172,6 +197,9 @@ if [ $BARU == NGGAK ]; then
 	echo -e ""$red"Not make "$blue"defconfig due to old "$cyan"config!""$transparent"
 read -p "Edit Config y/n? : " config
     if [ $config = "y" ];then
+       $EX_H
+       $U
+       $H
        $CM
        $COM
     else
@@ -217,17 +245,31 @@ esac
 
 }
 
+function patching(){
+echo -e "$blue"================ "$red""Patching wlan1 "$blue"================""$transparent"
+patch -p1 < wlan1.patch
+#rm wlan1.patch > /dev/null 2>&1
+}
+
+function eror(){
+eror=$?
+if [ $eror != 0 ]; then
+    echo "eror"
+    menu
+fi
+}
+
 function banner() {
-echo -e $fiuscha " X --------------- X " $transparent
-echo -e $fiuscha "  ______ ___   ___   " $transparent
-echo -e $blue    " |  ____/ _ \ / _ \  " $transparent
-echo -e $red     " | |__ | (_) | (_) | " $transparent
-echo -e $purple  " |  __| \__  |\__  | " $transparent
-echo -e $yellow  " | |____  / /   / /  " $transparent
-echo -e $green   " |______|/_/   /_/   " $transparent
+sleep 0.1 && echo -e $fiuscha " X --------------- X " $transparent
+sleep 0.1 && echo -e $fiuscha "  ______ ___   ___   " $transparent
+sleep 0.1 && echo -e $blue    " |  ____/ _ \ / _ \  " $transparent
+sleep 0.1 && echo -e $red     " | |__ | (_) | (_) | " $transparent
+sleep 0.1 && echo -e $purple  " |  __| \__  |\__  | " $transparent
+sleep 0.1 && echo -e $yellow  " | |____  / /   / /  " $transparent
+sleep 0.1 && echo -e $green   " |______|/_/   /_/   " $transparent
 echo  ""
-echo  -e $fiuscha" X --------------- X " $transparent
-echo -e $cyan " S C R I P T "
+sleep 0.1 && echo  -e $fiuscha" X --------------- X " $transparent
+sleep 0.1 && echo -e $cyan " S C R I P T "
 echo ""
 echo "| https://github.com/nethunter-indo/compile             |"
 echo -e ""$green"| "$yellow"YouTube  : Ripunk16 "$red"(https://youtube.com/Ripunk16)    "$green"|""$transparent"
@@ -242,7 +284,8 @@ echo -e ""$red"["$yellow"1"$red"]"$green"Compile"
 echo -e ""$red"["$yellow"2"$red"]"$green"Install GCC 4.9 "$red"recommended ""$tranparent"
 echo -e ""$red"["$yellow"3"$red"]"$green"Install GCC 5.0 "
 echo -e ""$red"["$yellow"4"$red"]"$green"Clang "$red"(NOT AVAILABLE YET)""$transparent"
-echo -e ""$red"["$yellow"5"$red"]"$green"Exit""$transparent"
+echo -e ""$red"["$yellow"5"$red"]"$green"Patch"
+echo -e ""$red"["$yellow"6"$red"]"$green"Exit""$transparent"
 echo -e ""
 echo -n "[root@E99 | hendramanu] : "
 read pil
@@ -270,6 +313,12 @@ esac
 
 case $pil in
 5)
+patching
+eror
+esac
+
+case $pil in
+6)
 sleep 0.5
 exit
 
@@ -278,6 +327,8 @@ esac
 case $pil in
 *)
 echo "Invalid!"
+sleep 1
+echo -e ""$red"Run ./build to recompile"
 sleep 1
 exit
 
