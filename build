@@ -8,6 +8,22 @@
 clear
 AWAL=$(pwd)
 a="cd .."
+
+function check_success() {
+if [ -e arch/arm64/boot/Image ] || [ -e output/arch/arm64/boot/Image ]; then
+echo "Success!"
+else
+echo -e ""$red"Run ./build to recompile"
+sleep 1
+fi
+echo -n "Press any button to continue"
+read sukses
+case $sukses in
+*)
+menu
+esac
+
+}
 function check_config() {
  $a
 	if [ -e output/.config ] || [ -e .config ]; then
@@ -262,8 +278,6 @@ esac
 case $pil in
 *)
 echo "Invalid!"
-sleep 1
-echo -e ""$red"Run ./build to recompile"
 sleep 1
 exit
 
