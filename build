@@ -11,6 +11,8 @@ clear
 AWAL=$(pwd)
 a="cd .."
 b="cp patch/wlan1.patch .."
+repo_added_bionic="grep -w bionic /usr/etc/apt/sources.list &> /dev/null"
+repo_added_xenial="grep -w xenial /usr/etc/apt/sources.list &> /dev/null"
 
 # Detect if user pressing Ctrl+C
 trap ctrl_c INT
@@ -69,7 +71,7 @@ EX_H="export KERNELNAME=Ripunk@E99_Hendramanu"
 PROC=`grep processor /proc/cpuinfo|wc -l`
 
 if [ "$BARU" == "NGGAK" ]; then
-    C_D="make O=output"
+	C_D="make O=output"
 	C_O="make O=output -j$PROC && check_success"
 	COM="make -j$PROC && check_success"
 	CM_O=echo "Old config! Skipping menuconfig"
@@ -98,24 +100,32 @@ transparent="\e[0m"
 
 # Add repo
 function add_repo(){
-if grep -Fxq "deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse" /etc/apt/sources.list; then
-	echo -e""$red"Repo already added!""$transparent"
+if $repo_added_bionic ; then
+	echo -e""$yellow"Repo already added!""$transparent"
 else
-	echo -e""$yellow" Adding Ubuntu 16.04 Xenial And 18.04 Bionic Repository""$transparent"
+	echo -e""$green" Adding Ubuntu 18.04 Bionic Repository""$transparent"
 sleep 2
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse" >>  /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse" >> /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list
+fi
+
+if $repo_added_xenial ; then
+	echo -e $yellow"Repo Xenial already added!"
+else
+	echo -e""$green" Adding Ubuntu 16.04 Xenial Repository""$transparent"
 echo "deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse" >> /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
 echo "deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
-gpg --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 > /dev/null 2>&1
-sleep 3
-gpg -a --export 3B4FE6ACC0B21F32 | sudo apt-key add - > /dev/null 2>&1
-sleep 3
 fi
+
+echo -e $green"Fixing GPG Keys..."
+gpg --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 > /dev/null 2>&1
+sleep 1
+gpg -a --export 3B4FE6ACC0B21F32 | sudo apt-key add - > /dev/null 2>&1
+sleep 1
 }
 
 
@@ -132,7 +142,7 @@ if ! type gcc-4.9 2>/dev/null; then
  	sleep 0.5
 	clear
 else
-	echo "GCC already Installed... Skipping"
+	echo "GCC 5 already Installed"
 	sleep 0.5
 	clear
 fi
@@ -142,7 +152,7 @@ fi
 #install gcc-5
 function install_gcc-5(){
 if ! type gcc-5 2>/dev/null; then
-	             echo "Installing GCC..."
+	             echo "Installing GCC 5..."
 	   add_repo
            apt update &> /dev/null
            DEBIAN_FRONTEND=noninteractive apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev &> /dev/null
@@ -152,7 +162,7 @@ if ! type gcc-5 2>/dev/null; then
                      sleep 0.5
                      clear
 	else
-                     echo "GCC already Installed..."
+                     echo "GCC 5 already Installed..."
 		     sleep 0.6
                      clear
 	fi
