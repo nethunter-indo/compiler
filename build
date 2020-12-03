@@ -6,23 +6,30 @@
 # Github : https://github.com/hendramanu
 
 clear
+
+# Needed Variables
 AWAL=$(pwd)
 a="cd .."
-rm wlan1.patch > /dev/null 2>&1
-b="cp patch/wlan1.patch ../"
+b="cp patch/wlan1.patch .."
+
+# Delete existing patch
+# Force delete even don't exist with silent output
+rm wlan1.patch &> /dev/null
 
 function check_success() {
 if [ -e arch/arm64/boot/Image ] || [ -e output/arch/arm64/boot/Image ]; then
-echo "Success!"
+	echo -e $green"Success!"$transparent
+	sleep 3
 else
-echo -e ""$red"Run ./build to recompile"
-sleep 1
+	echo -e $red"[!] ERROR!!"
+	echo -e ""$red"Fix the error with log information then run ./build to recompile"$transparent
+	sleep 3
 fi
-echo -n "Press any button to continue"
+echo -en $yellow"[-] Press any button to continue"$transparent
 read sukses
 case $sukses in
 *)
-menu
+	menu;
 esac
 
 }
@@ -39,8 +46,8 @@ function check_config() {
 		mkdir output
   echo -e ""$blue"Please "$red"Wait ...."
   loading
-		make clean > /dev/null 2>&1
-		make mrproper > /dev/null 2>&1
+		make clean &> /dev/null
+		make mrproper &> /dev/null
   clear
   banner
 	fi
@@ -107,9 +114,9 @@ function install_gcc-4.9(){
 if ! type gcc-4.9 2>/dev/null; then
 	echo "Installing GCC 4.9..."
 	add_repo
-	apt update
- 	apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev -y
-	apt install gcc-4.9 g++-4.9 -y
+	apt update &> /dev/null
+ 	DEBIAN_FRONTEND=noninteractive apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev -y &> /dev/null
+	apt install gcc-4.9 g++-4.9 -y &> /dev/null
 	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 30 > /dev/null 2>&1
 	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 30 > /dev/null 2>&1
  	sleep 0.5
@@ -127,9 +134,9 @@ function install_gcc-5(){
 if ! type gcc-5 2>/dev/null; then
 	             echo "Installing GCC..."
 	   add_repo
-           apt update
-           apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
-           apt install gcc-5 g++-5
+           apt update &> /dev/null
+           DEBIAN_FRONTEND=noninteractive apt install bc bison build-essential ccache curl flex git gnupg gperf imagemagick liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev &> /dev/null
+           apt install gcc-5 g++-5 &> /dev/null
            update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 > /dev/null 2>&1
            update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 60 > /dev/null 2>&1
                      sleep 0.5
@@ -145,11 +152,11 @@ function loading() {
     echo -ne ""$red"*********"
     sleep 0.15
     echo -ne ""$red"***************"
-    sleep 0.15
+    sleep 1
     echo -ne ""$red"***********************"
     sleep 1
     echo -ne ""$red" OK!"
-    sleep 0.15
+    sleep 1
     echo -ne "\n"
 }
 
@@ -173,17 +180,17 @@ ls arch/arm64/configs
 if [ -e arch/arm64/configs/vendor ]; then
 	echo "In vendor : "
 	ls arch/arm64/configs/vendor
-echo ""
-echo -e " If your "$red"defconfig "$transparent"is in "$red"vendor "$transparent"folder, "$yellow"please add vendor/ in your input"
-echo -e ""$red" Example "$trasparent": "$yellow"vendor/nethunter_defconfig"
+	echo ""
+	echo -e " If your "$red"defconfig "$transparent"is in "$red"vendor "$transparent"folder, "$yellow"please add vendor/ in your input"
+	echo -e ""$red" Example "$trasparent": "$yellow"vendor/nethunter_defconfig"
 fi
 echo -e ""$red""
 read -p "[Defconfig] : " conf;
-$C_D $conf
-sleep 1
-$CM_O
-sleep 1
-$C_O
+	$C_D $conf
+	sleep 1
+	$CM_O
+	sleep 1
+	$C_O
 fi
 }
 
