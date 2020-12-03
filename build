@@ -12,6 +12,16 @@ AWAL=$(pwd)
 a="cd .."
 b="cp patch/wlan1.patch .."
 
+# Detect if user pressing Ctrl+C
+trap ctrl_c INT
+function ctrl_c() {
+	echo ""
+	echo -e $red"[!] Ctrl+C detected! Interrupting..."$transparent
+	sleep 1
+	echo ""
+	exit
+}
+
 # Delete existing patch
 # Force delete even don't exist with silent output
 rm wlan1.patch &> /dev/null
