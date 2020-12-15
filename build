@@ -1,9 +1,9 @@
 #!/bin/bash
 # Compile Script
-# Ripunk16 & hendramanu
+# Ripunk16 & Hendra Manudinata
 # YouTube Ripunk16
 # Github : https://github.com/ripunk
-# Github : https://github.com/hendramanu
+# Github : https://github.com/NamaSayaHendra
 
 clear
 
@@ -295,7 +295,7 @@ echo ""
 echo "| https://github.com/nethunter-indo/compile             |"
 echo -e ""$green"| "$yellow"YouTube  : Ripunk16 "$red"(https://youtube.com/Ripunk16)    "$green"|""$transparent"
 echo -e ""$green"| "$yellow"Author 1 : ripunk / E99 "$red"(https://github.com/ripunk)   "$green"|""$transparent"
-echo -e ""$green"| "$yellow"Author 2 : hendramanu "$red"(https://github.com/hendramanu) "$green"|""$transparent"
+echo -e ""$green"| "$yellow"Author 2 : Hendra Manudinata "$red"(https://github.com/NamaSayaHendra) "$green"|""$transparent"
 echo "" ""
 }
 #menu
