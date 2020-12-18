@@ -30,14 +30,17 @@ function ctrl_c() {
 function detect_source_exist() {
 	echo ""
 	if [ -d $DIRNAME/source/* ]; then
-		echo -e $green"[*] Source Exist ! :)"$netral
-		source_exist=1
+		echo -e $green"[*] Source Exist !"$netral
 	else
-		echo -e $yellow"[#] Warning! Source kernel didn't exist!"
-		echo -e $yellow"[#] Put it in source folder!"
-		echo -e $yellow"[#] Example: source/j4ltejx"$netral
+		echo -e $red"[!] Source kernel didn't exist!"
+		echo -e $red"[!] Put it in source folder!"
+		echo -e $red"[!] Example: source/j4ltejx"$netral
 		echo ""
-		source_exist=0
+		sleep 2
+		echo ""
+		echo -e $red"[!] Exitting..."$netral
+		echo ""
+		exit 1
 	fi
 }
 
@@ -134,11 +137,7 @@ function menu_home() {
 	echo ""
 	detect_source_exist
 	echo ""
-	if [ $source_exist == 1 ]; then
-		echo -e $blue"[1] Build"
-	else
-		echo -e $blue"[1] Build (NOT AVAILABLE UNTIL SOURCE EXIST)"
-	fi
+	echo -e $blue"[1] Build"
 	echo -e $netral""
 	echo -e $blue"[2] Install Dependencies"
 	echo ""
