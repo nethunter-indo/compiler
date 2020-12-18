@@ -1,25 +1,26 @@
 # Kernel Compiler Script
 
-Current Release : **V0.7.a BETA**
-
 ## Author :
 
 1. Ripunk ( root@E99 , YT = https://youtube.com/Ripunk16 )
 
-2. Hendra Manudinata ( @hendramanu )
+2. Hendra Manudinata ( @NamaSayaHendra )
 
 Currently only support Android Linux-based Distro, will adding more.
 
 ## Clone
 Go to kernel source, and then
 
-```git clone https://github.com/nethunter-indo/compiler```
+```
+git clone https://github.com/nethunter-indo/compiler
 
-```cd compiler```
+cd compiler
+
+```
 
 ## Build
 
-```./build```
+```./builder.sh```
 
 ## Getting update
 
