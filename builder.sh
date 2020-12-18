@@ -119,6 +119,23 @@ function list_defconfig() {
 	read defconfig
 }
 
+function patch_kernel() {
+	echo ""
+	echo "========== PATCH =========="
+	echo ""
+	echo "Available patch : "
+	ls patch/
+	echo ""
+	echo -n "Choose patch : "
+	read patch_choice
+	echo "Patching kernel with $patch_choice ... "
+	sleep 1
+	cd source/$device
+	patch -p1 < ../../patch/$patch_choice
+	echo "Done"
+	menu_home
+}
+
 # Now, the final, menu home
 function menu_home() {
 	clear
@@ -143,7 +160,9 @@ function menu_home() {
 	echo ""
 	echo "[3] Install GCC 4.9"
 	echo ""
-	echo -e "[4] Exit"$netral
+	echo "[4] Patch kernel"
+	echo ""
+	echo -e "[5] Exit"$netral
 	echo ""
 	echo -en $yellow"[-] Choose an option: "
 	read menu_option
@@ -159,6 +178,9 @@ function menu_home() {
 		install_gcc_49
 		menu_home
 	elif [ "$menu_option" == 4 ]; then
+		clear
+		patch_kernel
+	elif [ "$menu_option" == 5 ]; then
 		echo -e $green"Okay... Bye bye!"$netral
 		sleep 2
 		exit
