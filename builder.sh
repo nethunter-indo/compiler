@@ -89,6 +89,7 @@ function build_type() {
   echo ""
   echo -en $green"Choose : "
   read BUILD_TYPE
+  echo -e $netral""
 }
 
 # Build with GCC without output (Samsung)
