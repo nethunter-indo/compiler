@@ -74,6 +74,23 @@ function install_dependencies() {
 	clear && menu_home
 }
 
+# Build type
+# GCC + Output
+# GCC W/O Output
+# CLANG + output
+# CLANG W/O output
+function build_type() {
+  echo -e $green"[#] Please choose build type"
+  echo "Recommended type : \nSamsung : GCC/Clang + Output/No output\nOther : GCC/Clang + Output/No Output"$netral
+  echo -e $yellow"[1] GCC + Output"
+  echo -e "[2] Clang + Output"
+  echo -e "[3] GCC Without Output"
+  echo -e "[4] GCC + Output"
+  echo ""
+  echo -en $green"Choose : "
+  read BUILD_TYPE
+}
+
 # Build with GCC without output (Samsung)
 function build_gcc_no_output() {
 	make clean && make mrproper
@@ -134,6 +151,34 @@ function patch_kernel() {
 	patch -p1 < ../../patch/$patch_choice
 	echo "Done"
 	menu_home
+}
+
+# Build menu
+function build_menu() {
+  echo ""
+  echo "========== BUILD =========="
+  echo -en $green"[#] Enter device codename\nDevice Codename should match with source name : "
+  read DEVICE_CODENAME
+  if [ ! -d source/$DEVICE_CODENAME ]; then
+    echo -e $yellow"[-] Wrong codename!"
+    sleep 2
+    build_menu
+  fi
+  list_defconfig
+  build_type
+  if [ $BUILD_TYPE = 1 ]; then
+    build_gcc_with_output
+  elif [ $BUILD_TYPE = 2 ]; then
+    build_clang_with_output
+  elif [ $BUILD_TYPE = 3 ]; then
+    build_gcc_no_output
+  elif [ $BUILD_TYPE = 4 ]; then
+    build_clang_no_output
+  else
+    echo -e $red"Wrong lol !! "
+    sleep 1
+    build_menu
+  fi
 }
 
 # Now, the final, menu home
