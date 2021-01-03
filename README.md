@@ -9,8 +9,6 @@
 Currently only support Android Linux-based Distro, will adding more.
 
 ## Clone
-Go to kernel source, and then
-
 ```
 git clone https://github.com/nethunter-indo/compiler
 
@@ -18,7 +16,18 @@ cd compiler
 
 ```
 
-## Build
+## Add Kernel Source
+```
+mkdir source && cd source
+git clone <sourceurl> <devicecodename>
+
+# Example :
+git clone https://github.com/Hdr-ProjeKT/KT_a51 a51
+
+cd ..
+```
+
+## Start
 
 ```./builder.sh```
 
